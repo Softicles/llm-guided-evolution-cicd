@@ -2,41 +2,20 @@ name: LLMGE (Slurm)
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
 
 jobs:
   submit_slurm:
     runs-on: [self-hosted]
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
 
-      - name: Confirm we are on ICE and see workspace
+    steps:
+      - name: Use existing scratch repo
         run: |
-          hostname
-          pwd
-          ls -la
+          cd /home/hice1/tnguyen831/scratch/llm-guided-evolution-cicd
+          git fetch origin
+          git reset --hard origin/new_main
 
       - name: Submit Slurm job
         run: |
-          cd "$GITHUB_WORKSPACE"
+          cd /home/hice1/tnguyen831/scratch/llm-guided-evolution-cicd
           JOBID=$(sbatch --parsable script/slurm_llmge.sbatch)
           echo "Submitted Slurm job: $JOBID"
-          echo "JOBID=$JOBID" >> $GITHUB_ENV
-
-      - name: Wait for job to finish (optional)
-        run: |
-          echo "Waiting for $JOBID ..."
-          while squeue -j "$JOBID" 2>/dev/null | grep -q "$JOBID"; do
-            sleep 20
-          done
-          echo "Job $JOBID finished."
-
-      - name: Show Slurm output files
-        run: |
-          ls -lah slurm-*.out slurm-*.err || true
-          echo "---- LAST 200 LINES (out) ----"
-          tail -n 200 slurm-*.out 2>/dev/null || true
-          echo "---- LAST 200 LINES (err) ----"
-          tail -n 200 slurm-*.err 2>/dev/null || true
