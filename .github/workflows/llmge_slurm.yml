@@ -17,5 +17,5 @@ jobs:
       - name: Submit Slurm job
         run: |
           cd /home/hice1/tnguyen831/scratch/llm-guided-evolution-cicd
-          JOBID=$(sbatch --parsable script/slurm_llmge.sbatch)
+          JOBID=$(sbatch --parsable slurm_llmge.sbatch)
           echo "Submitted Slurm job: $JOBID"
