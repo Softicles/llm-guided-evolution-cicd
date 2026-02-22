@@ -18,4 +18,6 @@ jobs:
         run: |
           cd /home/hice1/tnguyen831/scratch/llm-guided-evolution-cicd
           JOBID=$(sbatch --parsable slurm_llmge.sbatch)
+          echo "Runner name: ${{ runner.name }}"
           echo "Submitted Slurm job: $JOBID"
+          echo "Workflow: ${{ github.workflow }}"
