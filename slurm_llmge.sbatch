@@ -1,4 +1,4 @@
-# #!/bin/bash
+# !/bin/bash
 # #SBATCH --job-name=llmge_ci
 # #SBATCH -t 8:00:00
 # #SBATCH -n 1
