@@ -1,3 +1,11 @@
+name: LLMGE (Slurm)
+
+on:
+  push:
+    branches:
+      - '**'   # run on pushes to any branch
+  workflow_dispatch:
+
 jobs:
   submit_slurm:
     runs-on: [self-hosted]
