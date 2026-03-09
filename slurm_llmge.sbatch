@@ -30,7 +30,7 @@ export TRANSFORMERS_CACHE="$SLURM_SUBMIT_DIR/.cache/huggingface/transformers"
 export TORCH_HOME="$SLURM_SUBMIT_DIR/.cache/torch"
 
 # Your actual command (edit args as needed)
-python first_test.py first_test
+python run_improved.py first_test
 
 echo "==== SLURM JOB END ===="
 date
