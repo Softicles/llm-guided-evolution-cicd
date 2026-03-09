@@ -1,23 +1,28 @@
-name: LLMGE (Slurm)
-
-on:
-  workflow_dispatch:
-
 jobs:
   submit_slurm:
     runs-on: [self-hosted]
 
     steps:
-      - name: Use existing scratch repo
+      - name: Check out triggered branch/commit
+        uses: actions/checkout@v4 # pull the repository for the current workflow run.
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }} # make the checked-out code match the branch or tag that triggered the workflow.
+
+      - name: Show git state
         run: |
-          cd /home/hice1/tnguyen831/scratch/llm-guided-evolution-cicd
-          git fetch origin
-          git reset --hard origin/new_main
+          echo "Runner name: ${{ runner.name }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Repository: ${{ github.repository }}" # the repo directory created by GitHub Actions on that runner
+          echo "Ref: ${{ github.ref }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "SHA: ${{ github.sha }}"
+          git status
+          git branch --show-current
+          git rev-parse HEAD
 
       - name: Submit Slurm job
+        working-directory: ${{ github.workspace }}
         run: |
-          cd /home/hice1/tnguyen831/scratch/llm-guided-evolution-cicd
           JOBID=$(sbatch --parsable slurm_llmge.sbatch)
-          echo "Runner name: ${{ runner.name }}"
           echo "Submitted Slurm job: $JOBID"
-          echo "Workflow: ${{ github.workflow }}"
