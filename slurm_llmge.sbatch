@@ -16,18 +16,7 @@ hostname
 date
 echo "PWD: $(pwd)"
 
-module load cuda
-module load anaconda3
-
-export CUDA_VISIBLE_DEVICES=0
-conda activate llm_guided_env
-
 export LD_LIBRARY_PATH=~/.conda/envs/llm_guided_env/lib/python3.12/site-packages/nvidia/nvjitlink/lib:$LD_LIBRARY_PATH
-
-# (Optional but recommended) put caches on scratch to avoid quota
-export HF_HOME="$SLURM_SUBMIT_DIR/.cache/huggingface"
-export TRANSFORMERS_CACHE="$SLURM_SUBMIT_DIR/.cache/huggingface/transformers"
-export TORCH_HOME="$SLURM_SUBMIT_DIR/.cache/torch"
 
 # Your actual command (edit args as needed)
 python first_test.py first_test
